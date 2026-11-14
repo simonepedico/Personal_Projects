@@ -1,0 +1,161 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 05/23/2025 08:14:40 PM
+-- Design Name: 
+-- Module Name: tb_filter_ma - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use STD.textio.all;
+use ieee.std_logic_textio.all;
+
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity tb_filter_ma is
+--  Port ( );
+end tb_filter_ma;
+
+architecture Behavioral of tb_filter_ma is
+
+constant numbNbf:integer:=7;
+constant numblog2NFIFOf:integer:=7;
+constant numb_of_samples_constant:integer:=2560;
+
+component filter_ma is
+generic (
+    Nbf: integer:=numbNbf;
+    log2NFIFOf: integer:=numblog2NFIFOf);
+port (
+    en, rst, clk: in std_logic;
+    datain:in signed(Nbf-1 downto 0);
+    dataout: out signed(Nbf+log2NFIFOf-1 downto 0));
+end component;
+
+file file_to_be_read, file_to_be_written : text;
+signal dfilter_output: signed(numbNbf+numblog2NFIFOf-1 downto 0);
+signal dfilter_input: signed(numbNbf-1 downto 0);
+signal ens, rsts, clks: std_logic;
+
+begin
+
+----------------------------------------------------------
+-- clk, enable and reset generator -----------------------
+----------------------------------------------------------
+process_clks:process
+begin
+    clks <= '0';
+    wait for 10 ns;
+    clks <= '1';
+    wait for 10 ns;
+end process;
+
+process_ens:process
+begin
+    ens <= '0';
+    wait for 100 ns;
+    ens <= '1';
+    wait for 100 ms;
+end process;
+
+process_rsts:process
+begin
+    rsts <= '1';
+    wait for 100 ns;
+    rsts <= '0';
+    wait for 1000 ms;
+end process;
+
+
+----------------- THE FILTER -----------------------------
+
+----------------------------------------------------------
+
+filter_ma_c: filter_ma 
+    port map (
+    en => ens, 
+    rst => rsts,
+    clk => clks,
+    datain => dfilter_input,
+    dataout => dfilter_output);
+
+----------------------------------------------------------
+-- READ from a file --------------------------------------
+----------------------------------------------------------
+process
+    variable linevariable_in     : line;
+    variable numb_of_sample :integer:=0; 
+    variable datafile: std_logic_vector(numbNbf-1 downto 0);
+begin
+ 
+    file_open(file_to_be_read, "mysignal.txt",  read_mode);
+     
+    while numb_of_sample < numb_of_samples_constant  loop
+      readline(file_to_be_read, linevariable_in);
+      read(linevariable_in, datafile);
+    
+      dfilter_input <= signed(datafile);
+    
+      wait for 20 ns;
+      numb_of_sample:=numb_of_sample+1;
+      
+    end loop;
+    
+    file_close(file_to_be_read);
+     
+    wait;
+    
+end process;
+
+----------------------------------------------------------
+-- WRITE to a file ---------------------------------------
+----------------------------------------------------------
+-- WRITE to file
+process
+    variable linevariable_out: line;
+    variable spacevariable: character;
+    variable items_count :integer:=0; 
+begin
+    -- output_results_mdm_TEST.txt
+    file_open(file_to_be_written, "output_results_mdm_TEST.txt", write_mode);
+    
+    while items_count < numb_of_samples_constant  loop
+    
+      wait for 20 ns;
+    
+      write(linevariable_out, std_logic_vector(dfilter_output), right, numbNbf+numblog2NFIFOf);
+      writeline(file_to_be_written, linevariable_out);
+      items_count:=items_count+1;
+      
+    end loop;
+    
+    -- file_close(file_VECTORS);
+    file_close(file_to_be_written);
+     
+    wait;
+    
+end process;
+
+end Behavioral;
