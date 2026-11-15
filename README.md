@@ -79,7 +79,7 @@ Projects are independent and do not share a single installation procedure. Datas
 
 [Simone Pedico](https://github.com/simonepedico)
 
-Some projects were developed in collaboration with [Davide Piatti](https://github.com/davidepiatti) and [Valentyn Piskovskyi](https://github.com/piskovskyi). Each project's README lists its authors and collaborators.
+Some projects were developed with [Davide Piatti](https://github.com/davidepiatti) and [Valentyn Piskovskyi](https://github.com/piskovskyi). Each project's README lists its authors and collaborators.
 
 ## Acknowledgements
 
