@@ -2,6 +2,8 @@
 
 **A modular VHDL implementation of a moving-average filter**
 
+Authors: Davide Piatti, Simone Pedico
+
 [Full report](Moving_average_filter.pdf) · [Design sources](vhdl/design/) · [Testbenches](vhdl/tb/)
 
 ## Overview
