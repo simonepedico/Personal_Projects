@@ -8,7 +8,7 @@
 
 This project compares information-retrieval configurations using precision, recall, mean average precision and normalized discounted cumulative gain.
 
-The exported results cover four ranking models—TF-IDF, BM25, PL2 and DLH13—and four additional DLH13 configurations. The notebook contains the implementation, while the report provides the experimental context.
+The exported results cover four ranking models (TF-IDF, BM25, PL2 and DLH13) and four additional DLH13 configurations. The notebook contains the implementation, while the report provides the experimental context.
 
 ## Project contents
 
