@@ -6,7 +6,7 @@
 [Read the thesis](mesh_generation_thesis.pdf)
 
 <p align="center">
-  **Abstract**
+  Abstract
 </p>
 
 
