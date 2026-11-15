@@ -2,6 +2,8 @@
 
 **Historical IR: a retrieval system for 19th-century newspapers.**
 
+Authors: Simone Pedico, Valentyn Piskovskyi.
+
 [Notebook](TG3E.ipynb) · [Full report](TG3E.pdf) · [Evaluation results](results_all.csv) · [Open in Colab](https://colab.research.google.com/github/simonepedico/Personal_Projects/blob/main/TG3E/TG3E.ipynb)
 
 ## Overview
